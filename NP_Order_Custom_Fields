@@ -1,0 +1,29 @@
+<?php
+/**
+ * Add the following code to your PMPro Customizations Plugin
+ * Reorder custom fields in the checkout page for 'Northern Province Membership' group
+ * https://www.paidmembershipspro.com/create-a-plugin-for-pmpro-customizations/
+ */
+function pmpro_reorder_np_membership_fields() {
+    global $pmpro_pages;
+    if (is_page($pmpro_pages['checkout'])) {
+        ?>
+        <script>
+            jQuery(document).ready(function($) {
+                // Assuming 'northern_province_membership_type' is the field you want to move to the top
+                $('.pmpro_checkout-field-northern_province_membership_type').prependTo('#pmpro_form');
+
+                // Move 'northern_province_undergraduate_chapter' right after 'northern_province_membership_type'
+                $('.pmpro_checkout-field-northern_province_undergraduate_chapter').insertAfter('.pmpro_checkout-field-northern_province_membership_type');
+
+                // Then 'northern_province_alumni_chapter' follows
+                $('.pmpro_checkout-field-northern_province_alumni_chapter').insertAfter('.pmpro_checkout-field-northern_province_undergraduate_chapter');
+
+                // Finally, place 'chapter_leadership_role' at the end
+                $('.pmpro_checkout-field-chapter_leadership_role').insertAfter('.pmpro_checkout-field-northern_province_alumni_chapter');
+            });
+        </script>
+        <?php
+    }
+}
+add_action('wp_footer', 'pmpro_reorder_np_membership_fields');
